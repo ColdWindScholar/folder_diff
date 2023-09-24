@@ -92,7 +92,7 @@ if __name__ == '__main__':
         if len(sys.argv) > 3:
             diff_file = os.path.abspath(sys.argv[3])
         else:
-            diff_file = os.path.dirname(path) + os.sep + "diff"
+            diff_file = os.path.dirname(path) + os.sep + os.path.basename(path)+".diff"
         print(f"Diff File:{diff_file}")
         with open(diff_file, 'w') as diff:
             find_duplicates(path, diff)
