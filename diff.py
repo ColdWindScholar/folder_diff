@@ -52,9 +52,21 @@ def recover(file):
                 print(f"Fail!{e}")
 
 
+def usage():
+    print('''
+    Folder Differ
+      Find duplicate files in the folder and delete other identical files
+    Usages:
+     Find duplicate files:
+       diff.py diff [folder path]
+     recover del files:
+       diff.py recv [diff file path]
+    ''')
+
+
 if __name__ == '__main__':
     if len(sys.argv) < 3:
-        print("参数不足")
+        usage()
         sys.exit(1)
     if sys.argv[1] == 'diff':
         path = os.path.abspath(sys.argv[2])
