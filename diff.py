@@ -7,7 +7,7 @@ hash_dict = {}
 size_dict = {}
 
 
-def find_duplicates(directory, diff):
+def find_duplicates(directory, diff_):
     for root, dirs, files in os.walk(directory, topdown=True):
         for filename in files:
             filepath = os.path.join(root, filename)
@@ -32,7 +32,7 @@ def find_duplicates(directory, diff):
                     os.remove(filepath)
                 except PermissionError:
                     print(f"Cannot Remove {filepath}")
-                diff.write(f'{hash_dict[filehash]} ==> {filepath}\n')
+                diff_.write(f'{hash_dict[filehash]} ==> {filepath}\n')
             else:
                 print(f'Add hash [{filepath}] [{filehash}]')
                 hash_dict[filehash] = filepath
