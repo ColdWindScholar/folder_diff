@@ -2,6 +2,7 @@ import os
 import hashlib
 import sys
 import shutil
+from random import randint, choice
 
 hash_dict = {}
 size_dict = {}
@@ -67,6 +68,18 @@ def rd(file_) -> None:
     del data, new_data
 
 
+def v_code(num=6) -> str:
+    ret = ""
+    for i in range(num):
+        num = randint(0, 9)
+        # num = chr(random.randint(48,57))#ASCII表示数字
+        letter = chr(randint(97, 122))  # 取小写字母
+        better = chr(randint(65, 90))  # 取大写字母
+        s = str(choice([num, letter, better]))
+        ret += s
+    return ret
+
+
 def usage():
     print('''
     Folder Differ
@@ -92,7 +105,10 @@ if __name__ == '__main__':
         if len(sys.argv) > 3:
             diff_file = os.path.abspath(sys.argv[3])
         else:
-            diff_file = os.path.dirname(path) + os.sep + os.path.basename(path)+".diff"
+            diff_file = os.path.dirname(path) + os.sep + os.path.basename(path) + ".diff"
+        if os.path.exists(diff_file):
+            print(f"Warn: {diff_file} has exists already.\nRename diff!")
+            diff_file = diff_file + v_code()
         print(f"Diff File:{diff_file}")
         with open(diff_file, 'w') as diff:
             find_duplicates(path, diff)
