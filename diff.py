@@ -58,7 +58,7 @@ def usage():
       Find duplicate files in the folder and delete other identical files
     Usages:
      Find duplicate files:
-       diff.py diff [folder path]
+       diff.py diff [folder path]  [diff file]
      recover del files:
        diff.py recv [diff file path]
     ''')
@@ -70,7 +70,12 @@ if __name__ == '__main__':
         sys.exit(1)
     if sys.argv[1] == 'diff':
         path = os.path.abspath(sys.argv[2])
-        with open(path + os.sep + "diff", 'w') as diff:
+        if len(sys.argv) > 3:
+            diff_file = os.path.abspath(sys.argv[3])
+        else:
+            diff_file = os.path.dirname(path)+os.sep+"diff"
+        print(f"Diff File:{diff_file}")
+        with open(diff_file, 'w') as diff:
             find_duplicates(path, diff)
     elif sys.argv[1] == 'recv':
         path = os.path.abspath(sys.argv[2])
