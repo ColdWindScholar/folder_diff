@@ -8,8 +8,8 @@ size_dict = {}
 
 
 def find_duplicates(directory, diff_):
-    for root, dirs, files in os.walk(directory, topdown=True):
-        for filename in files:
+    for root, dirs, files_ in os.walk(directory, topdown=True):
+        for filename in files_:
             filepath = os.path.join(root, filename)
             try:
                 size_dict[os.path.getsize(filepath)] = filepath
@@ -61,6 +61,8 @@ def usage():
        diff.py diff [folder path]  [diff file]
      recover del files:
        diff.py recv [diff file path]
+     Merge diff files:
+       diff.py merge [file1] [file2] [...] [new_diff]
     ''')
 
 
@@ -73,11 +75,22 @@ if __name__ == '__main__':
         if len(sys.argv) > 3:
             diff_file = os.path.abspath(sys.argv[3])
         else:
-            diff_file = os.path.dirname(path)+os.sep+"diff"
+            diff_file = os.path.dirname(path) + os.sep + "diff"
         print(f"Diff File:{diff_file}")
         with open(diff_file, 'w') as diff:
             find_duplicates(path, diff)
     elif sys.argv[1] == 'recv':
         path = os.path.abspath(sys.argv[2])
         recover(path)
+    elif sys.argv[1] == 'merge':
+        if len(sys.argv) < 4:
+            print("At least two files are required!")
+            usage()
+            sys.exit(1)
+        *files, new = sys.argv[2:]
+        with open(new, 'w+') as new_diff:
+            for old_ in files:
+                print(f"Merge {old_} to {new}")
+                with open(old_, 'r') as old:
+                    new_diff.writelines(old.readlines())
     input("Done！")
