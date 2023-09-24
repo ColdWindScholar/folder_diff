@@ -71,6 +71,8 @@ def usage():
     print('''
     Folder Differ
       Find duplicate files in the folder and delete other identical files
+      Author:ColdWindScholar(3590361911@qq.com)
+      Github:https://github.com/ColdWindScholar/folder_diff
     Usages:
      Find duplicate files:
        diff.py diff [folder path]  [diff file]
