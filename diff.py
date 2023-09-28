@@ -12,12 +12,13 @@ def find_duplicates(directory, diff_):
     for root, dirs, files_ in os.walk(directory, topdown=True):
         for filename in files_:
             filepath = os.path.join(root, filename)
-            try:
-                size_dict[os.path.getsize(filepath)] = filepath
-            except OSError:
-                continue
             if not os.path.getsize(filepath) in size_dict:
                 continue
+            else:
+                try:
+                    size_dict[os.path.getsize(filepath)] = filepath
+                except OSError:
+                    continue
             try:
                 with open(filepath, 'rb') as f:
                     filehash = hashlib.md5(f.read()).hexdigest()
