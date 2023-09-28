@@ -63,7 +63,7 @@ def recover(file):
 def rd(file_) -> None:
     if not os.path.exists(file_):
         return
-    with open(file_, 'r+', encoding='utf-8', newline='\n') as f:
+    with open(file_, 'r+') as f:
         data = f.readlines()
         new_data = sorted(set(data), key=data.index)
         if len(new_data) == len(data):
