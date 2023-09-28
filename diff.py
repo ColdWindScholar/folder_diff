@@ -12,11 +12,14 @@ def find_duplicates(directory, diff_):
     for root, dirs, files_ in os.walk(directory, topdown=True):
         for filename in files_:
             filepath = os.path.join(root, filename)
-            if not os.path.getsize(filepath) in size_dict:
-                try:
-                    size_dict[os.path.getsize(filepath)] = filepath
-                except OSError:
+            try:
+                if not os.path.getsize(filepath) in size_dict:
+                    try:
+                        size_dict[os.path.getsize(filepath)] = filepath
+                    except OSError:
+                        continue
                     continue
+            except OSError:
                 continue
             try:
                 with open(filepath, 'rb') as f:
@@ -35,7 +38,7 @@ def find_duplicates(directory, diff_):
                     print(f"Cannot Remove {filepath}")
                 diff_.write(f'{hash_dict[filehash]} ==> {filepath}\n')
             else:
-                print(f'Add hash [{filepath}] [{filehash}]')
+                # print(f'Add hash [{filepath}] [{filehash}]')
                 hash_dict[filehash] = filepath
 
 
