@@ -50,7 +50,7 @@ def recover(file):
             if not os.path.exists(f):
                 print("Missing {f}!")
                 continue
-            print(f"Copy {f} ==> {g}")
+            print(f"Copy {f} ==> {e}")
             try:
                 shutil.copyfile(f, e)
             except OSError as e:
