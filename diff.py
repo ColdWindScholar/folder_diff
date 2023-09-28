@@ -4,7 +4,7 @@ import sys
 import shutil
 from random import randint, choice
 
-hash_dict = {}
+hash_dict = {"d41d8cd98f00b204e9800998ecf8427e": "empty"}
 size_dict = {}
 
 
@@ -43,6 +43,10 @@ def recover(file):
     with open(file, 'r') as f:
         for g in f.readlines():
             f, e = g.strip().split(' ==> ')
+            if f == 'empty':
+                print(f"Create empty file {e}")
+                open(e, 'w').close()
+                continue
             if not os.path.exists(f):
                 print("Missing {f}!")
                 continue
