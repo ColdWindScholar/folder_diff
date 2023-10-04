@@ -47,12 +47,11 @@ def compare(f1, f2):
         for filename in files_:
             filepath = os.path.join(root, filename)
             try:
-                if not os.path.getsize(filepath) in size_dict:
-                    try:
-                        size_dict[os.path.getsize(filepath)] = filepath
-                    except OSError:
-                        continue
+                file_size = os.path.getsize(filepath)
+                if file_size in size_dict:
                     continue
+                else:
+                    size_dict[file_size] = filepath
             except OSError:
                 continue
             try:
@@ -61,7 +60,7 @@ def compare(f1, f2):
             except OSError:
                 print(f"Cannot Hash {filepath}")
                 continue
-            hash_dict[filehash] = filepath
+            hash_dict[filepath.replace(f1, '#folder#')] = filehash
 
     for root, dirs, files_ in os.walk(f2, topdown=True):
         for filename in files_:
@@ -73,8 +72,9 @@ def compare(f1, f2):
                 print(f"Cannot Hash {filepath}")
                 continue
 
-            if filehash not in hash_dict:
-                print('Different file found: {} != {}'.format(filepath, hash_dict[filehash]))
+            if filepath in hash_dict:
+                if hash_dict[filepath.replace(f2, '#folder#')] == filehash:
+                    print('Different file found: {}'.format(filepath))
 
 
 def recover(file):
