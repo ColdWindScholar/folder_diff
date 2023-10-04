@@ -135,7 +135,7 @@ def usage():
        diff.py recv [diff file path]
      Merge diff files:
        diff.py merge [file1] [file2] [...] [new_diff]
-    Compare Folder to Find Different Files：
+    Compare Folder to Find Different Files In Folder2：
        diff.py comp [folder1] [folder2]
     ''')
 
