@@ -72,7 +72,7 @@ def compare(f1, f2):
                 print(f"Cannot Hash {filepath}")
                 continue
 
-            if filepath in hash_dict:
+            if filepath.replace(f2, '#folder#') in hash_dict:
                 if hash_dict[filepath.replace(f2, '#folder#')] == filehash:
                     print('Different file found: {}'.format(filepath))
 
