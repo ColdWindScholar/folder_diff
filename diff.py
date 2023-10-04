@@ -180,5 +180,5 @@ if __name__ == '__main__':
             print("Folder has a False")
             usage()
             sys.exit(1)
-        compare(sys.argv[2],sys.argv[3])
+        compare(sys.argv[2], sys.argv[3])
     input("Done！")
