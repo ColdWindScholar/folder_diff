@@ -75,6 +75,8 @@ def compare(f1, f2):
             if filepath.replace(f2, '#folder#') in hash_dict:
                 if hash_dict[filepath.replace(f2, '#folder#')] == filehash:
                     print('Different file found: {}'.format(filepath))
+            else:
+                print('File Not Exist In F1: {}'.format(filepath))
 
 
 def recover(file):
