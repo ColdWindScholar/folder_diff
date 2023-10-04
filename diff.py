@@ -42,6 +42,41 @@ def find_duplicates(directory, diff_):
                 hash_dict[filehash] = filepath
 
 
+def compare(f1, f2):
+    for root, dirs, files_ in os.walk(f1, topdown=True):
+        for filename in files_:
+            filepath = os.path.join(root, filename)
+            try:
+                if not os.path.getsize(filepath) in size_dict:
+                    try:
+                        size_dict[os.path.getsize(filepath)] = filepath
+                    except OSError:
+                        continue
+                    continue
+            except OSError:
+                continue
+            try:
+                with open(filepath, 'rb') as f:
+                    filehash = hashlib.md5(f.read()).hexdigest()
+            except OSError:
+                print(f"Cannot Hash {filepath}")
+                continue
+            hash_dict[filehash] = filepath
+
+    for root, dirs, files_ in os.walk(f2, topdown=True):
+        for filename in files_:
+            filepath = os.path.join(root, filename)
+            try:
+                with open(filepath, 'rb') as f:
+                    filehash = hashlib.md5(f.read()).hexdigest()
+            except OSError:
+                print(f"Cannot Hash {filepath}")
+                continue
+
+            if filehash not in hash_dict:
+                print('Different file found: {} != {}'.format(filepath, hash_dict[filehash]))
+
+
 def recover(file):
     with open(file, 'r') as f:
         for g in f.readlines():
@@ -100,6 +135,8 @@ def usage():
        diff.py recv [diff file path]
      Merge diff files:
        diff.py merge [file1] [file2] [...] [new_diff]
+    Compare Folder to Find Different Files：
+       diff.py comp [folder1] [folder2]
     ''')
 
 
@@ -134,4 +171,14 @@ if __name__ == '__main__':
                 with open(old_, 'r') as old:
                     new_diff.writelines(old.readlines())
         rd(new)
+    elif sys.argv[1] == 'comp':
+        if len(sys.argv) < 4:
+            print("At least two files are required!")
+            usage()
+            sys.exit(1)
+        if not os.path.isdir(sys.argv[2]) or not os.path.isdir(sys.argv[3]):
+            print("Folder has a False")
+            usage()
+            sys.exit(1)
+        compare(sys.argv[2],sys.argv[3])
     input("Done！")
